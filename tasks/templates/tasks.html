@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center display-3 py-5">Tasks</h1>
+            <div class="container d-flex justify-content-between mb-1">
+                <a href="/tasks_completed" class="btn btn-dark">Only completed</a>
+                <a href="/tasks" class="btn btn-dark">All Tasks</a>
+            </div>
+
+            <ul class="list-group">
+                {% for task in tasks %}
+                    {% if task.datecompleted == None %}
+                    <a class="list-group-item" href="{% url 'task_detail' task.id %}">
+                        <header class="d-flex justify-content-between">
+                            {% if task.important %}
+                            <h3 class="fw-bold text-info-emphasis">{{task.title}}</h3>
+                            <p>{{task.user.username}}</p>
+                            {% else %}
+                            <h3 class="fw-bold">{{task.title}}</h3>
+                            {% endif %}
+                        </header>
+                        <p>{{task.description}}</p>
+                        <p class="text-danger fw-bold">Pending Task</p>
+                    </a>
+                    {% else %}
+                    <a class="list-group-item" href="{% url 'task_detail' task.id %}">
+                        <header class="d-flex justify-content-between">
+                            {% if task.important %}
+                            <h3 class="fw-bold text-info-emphasis">{{task.title}}</h3>
+                            <p>{{task.user.username}}</p>
+                            {% else %}
+                            <h3 class="fw-bold">{{task.title}}</h3>
+                            {% endif %}
+                        </header>
+                        <p>{{task.description}}</p>
+                        <p>{{task.datecompleted|date:'M j Y:i'}}</p>
+                        <p class="text-success fw-bold">Complete Task</p>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
